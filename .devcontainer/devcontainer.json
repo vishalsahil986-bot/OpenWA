@@ -1,0 +1,23 @@
+{
+  "name": "OpenWA Codespaces",
+
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+
+  "features": {
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {}
+  },
+
+  "forwardPorts": [
+    2785
+  ],
+
+  "portsAttributes": {
+    "2785": {
+      "label": "OpenWA API / Dashboard",
+      "onAutoForward": "notify",
+      "protocol": "http"
+    }
+  },
+
+  "postStartCommand": "bash .devcontainer/start-openwa.sh"
+}
