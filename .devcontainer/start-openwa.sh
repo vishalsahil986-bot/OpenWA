@@ -60,6 +60,13 @@ for i in {1..60}; do
     echo ""
     docker compose -f docker-compose.dev.yml ps
     bash .devcontainer/start-tunnel.sh
+
+    if ! pgrep -f ".devcontainer/keepalive.sh" >/dev/null; then
+      nohup bash .devcontainer/keepalive.sh > /tmp/openwa-keepalive.log 2>&1 &
+      echo "OpenWA keep-alive started."
+    else
+      echo "OpenWA keep-alive already running."
+    fi
     exit 0
   fi
 
