@@ -1,0 +1,38 @@
+name: Keep OpenWA Codespace Running
+
+on:
+  schedule:
+    - cron: "*/5 * * * *"
+  workflow_dispatch:
+
+jobs:
+  start-codespace:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Start OpenWA Codespace
+        env:
+          GH_TOKEN: ${{ secrets.CODESPACE_STARTER_TOKEN }}
+          CODESPACE_NAME: fuzzy-parakeet-vpgqwr6997jj2pp7p
+        run: |
+          echo "Checking/starting Codespace: $CODESPACE_NAME"
+
+          HTTP_CODE=$(curl -sS \
+            -o /tmp/codespace-response.json \
+            -w "%{http_code}" \
+            -X POST \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer $GH_TOKEN" \
+            -H "X-GitHub-Api-Version: 2026-03-10" \
+            "https://api.github.com/user/codespaces/$CODESPACE_NAME/start")
+
+          echo "GitHub API response: $HTTP_CODE"
+
+          if [ "$HTTP_CODE" = "200" ] || [ "$HTTP_CODE" = "304" ] || [ "$HTTP_CODE" = "409" ]; then
+            echo "Codespace is running or already starting."
+            exit 0
+          fi
+
+          echo "Failed to start Codespace."
+          cat /tmp/codespace-response.json
+          exit 1
