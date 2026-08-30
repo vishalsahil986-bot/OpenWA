@@ -59,6 +59,7 @@ for i in {1..60}; do
     echo "Dashboard: $PUBLIC_URL"
     echo ""
     docker compose -f docker-compose.dev.yml ps
+    bash .devcontainer/start-tunnel.sh
     exit 0
   fi
 
