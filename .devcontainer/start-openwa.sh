@@ -62,7 +62,7 @@ for i in {1..60}; do
     bash .devcontainer/start-ngrok.sh
 
     if ! pgrep -f ".devcontainer/keepalive.sh" >/dev/null; then
-      nohup bash .devcontainer/keepalive.sh > /tmp/openwa-keepalive.log 2>&1 &
+      setsid bash .devcontainer/keepalive.sh > /tmp/openwa-keepalive.log 2>&1 < /dev/null &
       echo "OpenWA keep-alive started."
     else
       echo "OpenWA keep-alive already running."
