@@ -3,8 +3,18 @@
 set -e
 
 if ! command -v ngrok >/dev/null 2>&1; then
-  echo "ngrok not found."
-  exit 1
+  echo "ngrok not found. Installing..."
+
+  curl -fsSL https://bin.ngrok.com/c/bNyj1mQVY4c/ngrok-v3-stable-linux-amd64.tgz \
+    -o /tmp/ngrok.tgz
+
+  tar -xzf /tmp/ngrok.tgz -C /tmp
+
+  sudo mv /tmp/ngrok /usr/local/bin/ngrok
+
+  rm -f /tmp/ngrok.tgz
+
+  echo "ngrok installed."
 fi
 
 if [ -z "$NGROK_AUTHTOKEN" ]; then
