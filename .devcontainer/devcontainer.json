@@ -19,5 +19,5 @@
     }
   },
 
-  "postStartCommand": "bash .devcontainer/start-openwa.sh"
+  "postStartCommand": "bash .devcontainer/start-services.sh"
 }
